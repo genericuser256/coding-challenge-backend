@@ -22,7 +22,7 @@ A handful of scripts are provided:
 
 `npm run build` will build the application
 
-`npm run start` will start the application 
+`npm run start` will start the application
 
 `npm run test` will run the tests.
 
@@ -31,14 +31,14 @@ because it is necessary to set dates for events to be in the near future.
 
 ## The scenario
 
-You are a building a new RESTful API to manage events which are currently organized by hand and this is proving unwieldly.
+You are a building a new RESTful API to manage events which are currently organized by hand and this is proving unwieldy.
 The first iteration of the solution is to add existing, upcoming events to a brand new database and build a REST API to get a list of events.
 
 ### Requirements
 
 #### The Data
 
-Determine how to model the data to be used in the API. You find a sample of what is currently available in `data/data.json`. 
+Determine how to model the data to be used in the API. You find a sample of what is currently available in `data/data.json`.
 
 The existing system is capturing events which have a location, a name, and an organizer, who is a member of staff
 responsible for the event. You also know that there will be a need to associate a list of invitees with events, along
@@ -60,24 +60,24 @@ should think about data integrity, chances are the large json file might not be 
 Retrieve upcoming events, the endpoint must accept the following query parameters:
 
 - `from`: optional, Date, defaults ot the current time, only return events after this date
-- `until`: optional, Date, if omitted return all future events
+- `until`: optional, Date, if omitted return all future events, only return events before this date
 
 The required response is:
 
-```
-{
+```TS
+interface GetEventsResponse {
     results: [
         {
-            id: <unique identifier of event in our system>,
+            id: string, // <unique identifier of event in our system>
             name: string,
             date: Date,
-            isOutside: boolean
-            attendees: [] // empty array is fine for first iteration
+            isOutside: boolean,
+            attendees: [], // empty array is fine for first iteration
             organizer: {
-                id: <unique identifier of organizer in our system>,
-                name: string
+                id: string, // <unique identifier of organizer in our system>
+                name: string,
             },
-        }
+        },
     ]
 }
 ```
@@ -88,23 +88,23 @@ In addition, the results must be paginated, the specifics of the pagination are 
 
 Retrieve details for an upcoming event
 
-```
-{
-    id: <unique identifier of event in our system>,
+```TS
+interface GetEventResponse {
+    id: string, // <unique identifier of event in our system>
     name: string,
     date: Date,
-    isOutside: boolean
-    attandees: [] // empty array is fine for first iteration
+    isOutside: boolean,
+    attendees: [], // empty array is fine for first iteration
     organizer: {
-        id: <unique identifier of organizer in our system>,
-        name: string
+        id: string, // <unique identifier of organizer in our system>
+        name: string,
     },
     // if an event is outside and occuring withing 7 days, call any weather api to get the following details
     // if an event is not outside, or not occuring within 7 days this should be null
-    weather: null || {
-        temperatureInDegreesCelcius: number,
-        chanceOfRain: number 0-100
-    }
+    weather: null | {
+        temperatureInDegreesCelsius: number,
+        chanceOfRain: number, // range: 0-100
+    },
 }
 ```
 
@@ -123,7 +123,7 @@ Feel free to use a weather API of your choosing to augment the data returned for
 - Weather Stack https://weatherstack.com/
 
 # Assessment
-Overall quality over feature-completeness. The challenge is intentionally kept very open to provide you with enough freedom to make your own decisions and creatitivy. If you don't get to work on everything, outline what the next steps would look like and how you'd approach it. 
+Overall quality over feature-completeness. The challenge is intentionally kept very open to provide you with enough freedom to make your own decisions and creativity. If you don't get to work on everything, outline what the next steps would look like and how you'd approach it.
 
 We will assess your solution based on following criteria:
 
@@ -145,10 +145,10 @@ Any vulnerabilities e.g. input validations, error handling
 - **Testing**
 Unit tests, do they exist, do they run?
 
-- ~Scalability
-How will it perform with 1 req/s, 10 req/s, 100 req/s? 
+- **Scalability**
+How will it perform with 1 req/s, 10 req/s, 100 req/s?
 
-- ~Product readiness
+- **Product readiness**
 Can it be used in production? What might be missing?
 
 
@@ -158,12 +158,10 @@ We love using GitHub, if you are using private repository you can also send an i
 
 # FAQ
 I have not been invited for a coding challenge, can I still submit?
-> Absolutely! We are looking for folks who are just as passionate about building products for a global audience as we are. Submit your solution and we'll be in touch! Chances are you'll be able to go through our interview process and join sherpa°! 
+> Absolutely! We are looking for folks who are just as passionate about building products for a global audience as we are. Submit your solution and we'll be in touch! Chances are you'll be able to go through our interview process and join sherpa°!
 
 I've spent too much time and can't complete the challenge, will I loose the opportunity to get a job?
 > As a reminder, quality over quantity. If you don't get to a complete solution, that's fine as long as you can highlight your approach and showcase quality code. Pick one endpoint and see if you can get it to work.
 
 Can I use a different tech stack?
 > You have the freedom to use different frameworks and libraries but `Typescript` remains a hard requirement as it is our primary programming language and you'll be working with it every day.
-
-

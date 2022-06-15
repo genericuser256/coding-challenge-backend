@@ -60,7 +60,10 @@ const getRandomIntInRange = (min: number, max: number) => {
 const getEvents = () =>
     events.map((event, i) => ({
         ...event,
-        date: addDaysToDate(new Date(), getRandomIntInRange(1, 10)).getTime(),
+        date: addDaysToDate(
+            new Date(),
+            getRandomIntInRange(1, 10)
+        ).toISOString(),
         organizer: organizers[i < 2 ? i : getRandomIntInRange(0, 1)],
     }));
 

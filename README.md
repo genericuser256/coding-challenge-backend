@@ -72,7 +72,7 @@ interface GetEventsResponse {
         {
             id: string, // <unique identifier of event in our system>
             name: string,
-            date: Date,
+            date: string, // Date string in ISO-8601 format
             isOutside: boolean,
             attendees: [], // empty array is fine for first iteration
             organizer: {
@@ -94,7 +94,7 @@ Retrieve details for an upcoming event
 interface GetEventResponse {
     id: string, // <unique identifier of event in our system>
     name: string,
-    date: Date,
+    date: string, // Date string in ISO-8601 format
     isOutside: boolean,
     attendees: [], // empty array is fine for first iteration
     organizer: {

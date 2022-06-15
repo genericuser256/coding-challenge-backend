@@ -45,13 +45,13 @@ const organizers = [
     }
 ]
 
-const addDaysToDate = (date, dayToAdd) => {
+const addDaysToDate = (date: string | number | Date, dayToAdd: number) => {
     const result = new Date(date);
     result.setDate(result.getDate() + dayToAdd);
     return result;
 }
 
-const getRandomIntInRange = (min, max) => {
+const getRandomIntInRange = (min: number, max: number) => {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;

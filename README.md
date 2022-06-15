@@ -1,5 +1,7 @@
 ![sherpa coding challenge banner](docs/backend-engineer.png)
+
 # Join sherpa° - the coding challenge
+
 Find out more about sherpa° at our [careers page](https://joinsherpa.com/careers).
 
 Looking for a [Frontend Engineering](https://github.com/joinsherpa/coding-challenge-frontend) role instead?
@@ -45,13 +47,13 @@ responsible for the event. You also know that there will be a need to associate 
 with their reservation status to confirm their attendance.
 
 > Derive a data model for this relation of entities. Create the tables in the SQLite database, you may want to think
-about maintainability and documentation, an Entity Relationship Diagram (ERD) might be useful, as might a migration process, you may want to think about using an Object-Relational Mapping framework.
+> about maintainability and documentation, an Entity Relationship Diagram (ERD) might be useful, as might a migration process, you may want to think about using an Object-Relational Mapping framework.
 
 The data given to you is a sample of the data as you expect to receive it. When the time comes they will
 provide a very large json file to import into the db.
 
 > Import the sample data into the database, write a script to do this and bear in mind it must operate at scale. You
-should think about data integrity, chances are the large json file might not be complete for every event.
+> should think about data integrity, chances are the large json file might not be complete for every event.
 
 #### The API
 
@@ -117,51 +119,58 @@ Because the slate is blank, you will be making a lot of decisions about how the 
 The functional requirements here should probably take no longer than a couple of hours to implement. The standard you should be aiming for is something you would submit as a pull request for a production ready feature. Keep in mind, quality over quantity. If you don't get to a complete solution, that's fine as long as you can highlight your approach and showcase quality code.
 
 ## Weather API
+
 Feel free to use a weather API of your choosing to augment the data returned for each event. There are tons of APIs that you can freely use, here are some you can explore to get started with:
+
 - Weather API https://www.weatherapi.com/
 - Open Weather Map https://openweathermap.org/
 - Weather Stack https://weatherstack.com/
 
 # Assessment
+
 Overall quality over feature-completeness. The challenge is intentionally kept very open to provide you with enough freedom to make your own decisions and creativity. If you don't get to work on everything, outline what the next steps would look like and how you'd approach it.
 
 We will assess your solution based on following criteria:
 
 - **Architecture**
-Design decisions, clean separation of concerns?
+  Design decisions, clean separation of concerns?
 
 - **Clarity**
-Comments, documentation, naming conventions
+  Comments, documentation, naming conventions
 
 - **Correctness**
-Does it work as intended
+  Does it work as intended
 
 - **Code Quality**
-Any code smells, red flags? OOO vs functional, SOLID, consistent code
+  Any code smells, red flags? OOO vs functional, SOLID, consistent code
 
 - **Security**
-Any vulnerabilities e.g. input validations, error handling
+  Any vulnerabilities e.g. input validations, error handling
 
 - **Testing**
-Unit tests, do they exist, do they run?
+  Unit tests, do they exist, do they run?
 
 - **Scalability**
-How will it perform with 1 req/s, 10 req/s, 100 req/s?
+  How will it perform with 1 req/s, 10 req/s, 100 req/s?
 
 - **Product readiness**
-Can it be used in production? What might be missing?
-
+  Can it be used in production? What might be missing?
 
 # Submission
+
 Once you're comfortable with sharing your code provide either a link to your repository or package it up into a `zip` file and send it to `alex@joinsherpa.com`.
 We love using GitHub, if you are using private repository you can also send an invite to [alx-andru](https://github.com/alx-andru) or fork this repo and open a PR with your changes!
 
 # FAQ
+
 I have not been invited for a coding challenge, can I still submit?
+
 > Absolutely! We are looking for folks who are just as passionate about building products for a global audience as we are. Submit your solution and we'll be in touch! Chances are you'll be able to go through our interview process and join sherpa°!
 
 I've spent too much time and can't complete the challenge, will I loose the opportunity to get a job?
+
 > As a reminder, quality over quantity. If you don't get to a complete solution, that's fine as long as you can highlight your approach and showcase quality code. Pick one endpoint and see if you can get it to work.
 
 Can I use a different tech stack?
+
 > You have the freedom to use different frameworks and libraries but `Typescript` remains a hard requirement as it is our primary programming language and you'll be working with it every day.

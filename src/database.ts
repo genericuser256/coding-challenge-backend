@@ -1,14 +1,24 @@
 import { join } from "path";
-import { Database } from "sqlite3";
+import { Sequelize } from "sequelize-typescript";
 
-let db: Database;
+let db: Sequelize;
 
 const dbLocation = join(__dirname, "../data/myDb.db");
+const modelLocation = join(__dirname, "./models/*.model.ts");
 
-export const getDBConnection = (): Database => {
+export const getDBConnection = async (): Promise<Sequelize> => {
     if (!db) {
-        const sqlite3 = require("sqlite3").verbose();
-        db = new sqlite3.Database(dbLocation);
+        db = new Sequelize({
+            dialect: "sqlite",
+            storage: dbLocation,
+            models: [modelLocation],
+            modelMatch: (filename, member) => {
+                return (
+                    filename.substring(0, filename.indexOf(".model")) ===
+                    member.toLowerCase()
+                );
+            },
+        });
     }
     return db;
 };

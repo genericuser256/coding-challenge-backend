@@ -1,9 +1,14 @@
 import {
+    AllowNull,
     Column,
     CreatedAt,
     DataType,
+    Default,
+    DeletedAt,
     Model,
+    PrimaryKey,
     TableOptions,
+    Unique,
     UpdatedAt,
 } from "sequelize-typescript";
 import { Optional } from "sequelize/types";
@@ -14,6 +19,7 @@ export interface IBaseModel {
     id: Id;
     createdAt: Date;
     updatedAt: Date;
+    deletedAt?: Date;
 }
 
 export interface IBaseModelCreationAttr
@@ -26,28 +32,30 @@ export class BaseModel<
     TModelAttributes & IBaseModel,
     TModelCreationAttributes & IBaseModelCreationAttr
 > {
-    @Column({
-        allowNull: false,
-        primaryKey: true,
-        unique: true,
-        type: DataType.UUID,
-        defaultValue: DataType.UUIDV4,
-    })
+    @AllowNull(false)
+    @Default(DataType.UUIDV4)
+    @PrimaryKey
+    @Unique
+    @Column(DataType.UUID)
     id!: Id;
 
-    @Column({
-        allowNull: false,
-    })
+    @AllowNull(false)
     @CreatedAt
+    @Column
     createdAt!: Date;
 
-    @Column({
-        allowNull: false,
-    })
+    @AllowNull(false)
     @UpdatedAt
+    @Column
     updatedAt!: Date;
+
+    @AllowNull(true)
+    @DeletedAt
+    @Column
+    deletedAt?: Date;
 }
 
 export const defaultTableOptions: TableOptions = {
     timestamps: true,
+    paranoid: true,
 };

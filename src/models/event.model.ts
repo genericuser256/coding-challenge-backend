@@ -1,8 +1,9 @@
 import {
     Table,
     Column,
-    ForeignKey,
     BelongsTo,
+    HasMany,
+    DataType,
 } from "sequelize-typescript";
 import {
     BaseModel,
@@ -11,6 +12,7 @@ import {
     IBaseModelCreationAttr,
     Id,
 } from "./baseModel";
+import { Invitation } from "./invitation.model";
 import { Person } from "./person.model";
 
 export interface IEventModel extends IBaseModel {
@@ -19,6 +21,7 @@ export interface IEventModel extends IBaseModel {
     location: string;
     date: Date;
     organizer: Person;
+    attendees: Invitation[];
 }
 
 export interface IEventModelCreationAttr extends IBaseModelCreationAttr {
@@ -27,6 +30,7 @@ export interface IEventModelCreationAttr extends IBaseModelCreationAttr {
     location: string;
     date: Date;
     organizerId: Id;
+    attendeeIds?: Id[];
 }
 
 @Table({ ...defaultTableOptions, tableName: "event" })
@@ -43,10 +47,21 @@ export class Event extends BaseModel<IEventModel, IEventModelCreationAttr> {
     @Column
     date!: Date;
 
-    @Column
-    @ForeignKey(() => Person)
-    organizerId!: Id;
+    //
+    // Virtual columns for association
+    //
 
-    @BelongsTo(() => Person, "organizerId")
-    organizer!: Person;
+    @BelongsTo(() => Person, {
+        foreignKey: "organizerId",
+        keyType: DataType.UUID,
+        onDelete: "CASCADE",
+    })
+    organizer?: Person;
+
+    @HasMany(() => Invitation, {
+        foreignKey: "eventId",
+        keyType: DataType.UUID,
+        onDelete: "CASCADE",
+    })
+    attendees?: Invitation[];
 }

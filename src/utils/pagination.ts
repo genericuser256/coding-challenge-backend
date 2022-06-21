@@ -7,22 +7,22 @@ import httpError from "http-errors";
 // if this was an actual product I would
 //
 
-export interface IPaginationReq {
+export interface IPaginationOptions {
     offset: number;
     limit: number;
 }
 
-export interface IPaginationQuery extends Partial<IPaginationReq> {}
+export interface IPaginationQuery extends Partial<IPaginationOptions> {}
 
-export const defaultPaginationReq: IPaginationReq = {
+export const defaultPaginationOptions: IPaginationOptions = {
     offset: 0,
     limit: 1,
 };
 
 export const parseAndValidatePaginationQuery = (query: IPaginationQuery) => {
     const {
-        offset = defaultPaginationReq.offset,
-        limit = defaultPaginationReq.limit,
+        offset = defaultPaginationOptions.offset,
+        limit = defaultPaginationOptions.limit,
     } = query;
 
     if (offset < 0) {

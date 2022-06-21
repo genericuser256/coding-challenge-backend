@@ -18,7 +18,10 @@ export const getDBConnection = async (): Promise<Sequelize> => {
                     member.toLowerCase()
                 );
             },
+            logging: false,
         });
+
+        await db.sync();
     }
     return db;
 };

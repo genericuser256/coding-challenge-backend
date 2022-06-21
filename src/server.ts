@@ -47,7 +47,7 @@ const setupExpress = () => {
     setupRoutes(app);
 
     const server = app.listen(port, () => {
-        baseLogger.debug(`Example app listening at http://localhost:${port}`);
+        baseLogger.info(`Example app listening at http://localhost:${port}`);
         return server;
     });
     return server;
@@ -55,8 +55,7 @@ const setupExpress = () => {
 
 export const start = async (): Promise<Server> => {
     try {
-        const db = await getDBConnection();
-        await db.sync({ force: true });
+        await getDBConnection();
         return setupExpress();
     } catch (err) {
         throw err;

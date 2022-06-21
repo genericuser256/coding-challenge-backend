@@ -67,7 +67,7 @@ Retrieve upcoming events, the endpoint must accept the following query parameter
 The required response is:
 
 ```TS
-interface GetEventsResponse {
+interface IGetEventsResponse {
     results: [
         {
             id: string, // <unique identifier of event in our system>
@@ -91,7 +91,7 @@ In addition, the results must be paginated, the specifics of the pagination are 
 Retrieve details for an upcoming event
 
 ```TS
-interface GetEventResponse {
+interface IGetEventResponse {
     id: string, // <unique identifier of event in our system>
     name: string,
     date: string, // Date string in ISO-8601 format

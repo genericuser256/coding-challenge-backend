@@ -68,13 +68,13 @@ interface IGetEventParams {
 interface IGetEventResponse extends IEventModelWithForecast {}
 
 eventsRouter.get<IGetEventParams, IGetEventResponse>(
-    ":id",
+    "/:id",
     async (req, res) => {
         const { id } = req.params;
 
         // We'd want a better validation system than this since it's error-prone
         // to specify the version like this every time, but for this I'll allow it
-        if (!IsUUID("4")(id)) {
+        if (!id) {
             throw new httpError.BadRequest("id is not a valid uuid-v4");
         }
 

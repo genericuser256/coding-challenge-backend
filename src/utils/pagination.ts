@@ -16,7 +16,7 @@ export interface IPaginationQuery extends Partial<IPaginationOptions> {}
 
 export const defaultPaginationOptions: IPaginationOptions = {
     offset: 0,
-    limit: 1,
+    limit: 10,
 };
 
 export const parseAndValidatePaginationQuery = (query: IPaginationQuery) => {

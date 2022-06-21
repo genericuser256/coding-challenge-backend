@@ -52,6 +52,8 @@ export class WeatherService implements IWeatherService {
     }
 
     private async callForecastApi(city: string) {
+        // So while I am requesting 7 days theoretically, it's actually only returning like 3 or 4
+        // not sure why but just a limitation of the API...
         const resp = await fetch(
             encodeURI(
                 `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=7`

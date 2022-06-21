@@ -1,30 +1,30 @@
 import express, { json, Express } from "express";
 import { Server } from "http";
 import errorHandler from "strong-error-handler";
-import morgan from "morgan";
 import cors from "cors";
 import { getDBConnection } from "./database";
 import { setupRoutes } from "./routes";
 import { isProdEnv } from "./utils/node";
+import PinoHttp from "pino-http";
+import logger from "./logger";
+
+const httpLogger = PinoHttp({
+    logger: logger,
+});
 
 // Should be based on configuration file
 const port = 4040;
 
-// This is essentially the Apache combined log format with response time as well
-const prodLogFormat =
-    ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :response-time ms';
-
 const setupMiddleware = (app: Express) => {
     app.use(
         errorHandler({
-            // Normally this would be based on configuration as well
+            // Normally this would be based on configuration
             debug: !isProdEnv(),
             log: true,
         })
     );
 
-    // Normally this would be based on configuration as well
-    app.use(morgan(isProdEnv() ? prodLogFormat : "dev"));
+    app.use(httpLogger);
 
     // middleware for json body parsing
     app.use(json({ limit: "5mb" }));

@@ -1,3 +1,4 @@
+import ono from "ono";
 import {
     Table,
     Column,
@@ -7,6 +8,7 @@ import {
 } from "sequelize-typescript";
 import {
     BaseModel,
+    convertBaseModelToIBaseModel,
     defaultTableOptions,
     IBaseModel,
     IBaseModelCreationAttr,
@@ -65,3 +67,22 @@ export class Event extends BaseModel<IEventModel, IEventModelCreationAttr> {
     })
     attendees?: Invitation[];
 }
+
+export const convertEventToIEventModel = (event: Event): IEventModel => {
+    if (!event.organizer) {
+        throw ono("event.organizer is undefined");
+    }
+    if (!event.attendees) {
+        throw ono("event.attendees is undefined");
+    }
+
+    return {
+        ...convertBaseModelToIBaseModel(event),
+        name: event.name,
+        isOutside: event.isOutside,
+        location: event.location,
+        date: event.date,
+        organizer: event.organizer,
+        attendees: event.attendees,
+    };
+};

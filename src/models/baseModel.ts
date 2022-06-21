@@ -59,3 +59,14 @@ export const defaultTableOptions: TableOptions = {
     timestamps: true,
     paranoid: true,
 };
+
+export const convertBaseModelToIBaseModel = (
+    model: BaseModel<any, any>
+): IBaseModel => {
+    return {
+        id: model.id,
+        createdAt: model.createdAt,
+        updatedAt: model.updatedAt,
+        deletedAt: model.deletedAt,
+    };
+};

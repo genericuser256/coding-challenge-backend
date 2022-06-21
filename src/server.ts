@@ -47,7 +47,7 @@ const setupExpress = () => {
     setupRoutes(app);
 
     const server = app.listen(port, () => {
-        console.log(`Example app listening at http://localhost:${port}`);
+        logger.debug(`Example app listening at http://localhost:${port}`);
         return server;
     });
     return server;

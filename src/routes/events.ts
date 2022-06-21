@@ -4,7 +4,7 @@ import httpError from "http-errors";
 import { IsUUID } from "sequelize-typescript";
 import { EventDao } from "../dao";
 import { IEventModel, Id } from "../models";
-import { eventService } from "../services";
+import { eventService, IEventModelWithForecast } from "../services";
 import {
     IPaginatedData,
     IPaginationQuery,
@@ -65,7 +65,7 @@ interface IGetEventParams {
     id: Id;
 }
 
-interface IGetEventResponse extends IEventModel {}
+interface IGetEventResponse extends IEventModelWithForecast {}
 
 eventsRouter.get<IGetEventParams, IGetEventResponse>(
     ":id",

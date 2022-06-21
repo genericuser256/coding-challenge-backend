@@ -6,10 +6,10 @@ import { getDBConnection } from "./database";
 import { setupRoutes } from "./routes";
 import { isProdEnv } from "./utils/node";
 import PinoHttp from "pino-http";
-import logger from "./logger";
+import baseLogger from "./logger";
 
 const httpLogger = PinoHttp({
-    logger: logger,
+    logger: baseLogger,
 });
 
 // Should be based on configuration file
@@ -47,7 +47,7 @@ const setupExpress = () => {
     setupRoutes(app);
 
     const server = app.listen(port, () => {
-        logger.debug(`Example app listening at http://localhost:${port}`);
+        baseLogger.debug(`Example app listening at http://localhost:${port}`);
         return server;
     });
     return server;

@@ -1,7 +1,8 @@
-import pino, { LoggerOptions } from "pino";
+import pino, { Bindings, LoggerOptions } from "pino";
 import { isProdEnv } from "./utils/node";
 
 const devOptions: LoggerOptions = {
+    name: "base",
     transport: {
         target: "pino-pretty",
         options: {
@@ -10,7 +11,9 @@ const devOptions: LoggerOptions = {
     },
 };
 
-const prodOptions: LoggerOptions = {};
+const prodOptions: LoggerOptions = {
+    name: "base",
+};
 
 const getLogger = (prod: boolean) => {
     if (prod) {
@@ -23,6 +26,15 @@ const getLogger = (prod: boolean) => {
     return pino(devOptions);
 };
 
-const logger = getLogger(isProdEnv());
+export const getLoggerChild = (
+    logger: ReturnType<typeof getLogger>,
+    name: string,
+    bindings: Bindings = {},
+    options: LoggerOptions = {}
+) => {
+    return logger.child(bindings, { ...options, name });
+};
 
-export default logger;
+const baseLogger = getLogger(isProdEnv());
+
+export default baseLogger;

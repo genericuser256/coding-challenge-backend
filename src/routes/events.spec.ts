@@ -1,7 +1,8 @@
 import { startOfTomorrow } from "date-fns";
 import request from "supertest";
 import { setupExpress } from "../express";
-import { eventService } from "../services";
+import { EventId, Id } from "../models";
+import { eventService, IEventModelWithForecast } from "../services";
 import {
     defaultPaginationOptions,
     wrapPaginatedData,
@@ -113,6 +114,57 @@ describe("#events", () => {
             expect(response.body.error.message).toMatch(/oopsy/);
 
             expect(mockedEventService.getAllEvents).toBeCalled();
+        });
+    });
+
+    describe("#getEvent", () => {
+        beforeEach(() => {
+            // need to reset the mock in between as the requests seem to be interleaving
+            // in an unexpected way
+            mockedEventService.getEvent.mockReset();
+        });
+
+        it("returns the right data for the happy path", async () => {
+            // It's not, but it works :)
+            const returnedValue = {} as IEventModelWithForecast;
+            mockedEventService.getEvent.mockResolvedValueOnce(returnedValue);
+
+            const id = "0000-1111-2222-3333" as EventId;
+            const response = await request(app).get(`/events/${id}`);
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(returnedValue);
+
+            expect(mockedEventService.getEvent).toBeCalledWith(id);
+        });
+
+        // Marking this as a todo since we don't have real validation on id
+        it.todo("returns an error when id is invalid");
+        // , async () => {
+        //     // It's not, but it works :)
+        //     const returnedValue = {} as IEventModelWithForecast;
+        //     mockedEventService.getEvent.mockResolvedValueOnce(returnedValue);
+
+        //     const id = "not a real uuid" as EventId;
+        //     const response = await request(app).get(`/events/${id}`);
+        //     expect(response.status).toBe(400);
+        //     expect(response.body.error.message).toMatch(
+        //         "id is not a valid uuid-v4"
+        //     );
+
+        //     expect(mockedEventService.getEvent).not.toBeCalled();
+        // });
+
+        it("returns an error when the service fails", async () => {
+            mockedEventService.getEvent.mockRejectedValueOnce(
+                new Error("oopsy")
+            );
+
+            const id = "0000-1111-2222-3333" as EventId;
+            const response = await request(app).get(`/events/${id}`);
+            expect(response.status).toBe(500);
+            expect(response.body.error.message).toMatch(/oopsy/);
+
+            expect(mockedEventService.getEvent).toBeCalledWith(id);
         });
     });
 });

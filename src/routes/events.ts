@@ -79,17 +79,23 @@ interface IGetEventResponse extends IEventModelWithForecast {}
 
 eventsRouter.get<IGetEventParams, IGetEventResponse>(
     "/:id",
-    async (req, res) => {
+    async (req, res, next) => {
         const { id } = req.params;
 
         // We'd want a better validation system than this since it's error-prone
         // to specify the version like this every time, but for this I'll allow it
         if (!id) {
-            throw new httpError.BadRequest("id is not a valid uuid-v4");
+            next(new httpError.BadRequest("id is not a valid uuid-v4"));
+            return;
         }
 
-        const data = await eventService.getEvent(id);
+        try {
+            const data = await eventService.getEvent(id);
 
-        return res.json(data);
+            return res.json(data);
+        } catch (e) {
+            next(ono(e as Error, "encountered error in getEvent"));
+            return;
+        }
     }
 );

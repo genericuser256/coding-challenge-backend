@@ -10,6 +10,12 @@ It would have been useful for things like creating instances of the logger for e
 
 While there's a request context it would also be useful to have a shared context that services and the like have access to so their logs can be associated with a particular request. I'm not sure how this is best done, but I know that it can be and is very useful when used correctly.
 
+## Testing
+
+### Completeness
+
+While normally I would write thorough unit tests for each file, I'm assuming that for this it's more to get the idea of how I write tests rather than seeing I write every test. As such, I've created a few example test files to show how I usually write tests, but have not done so for everything.
+
 ## Misc
 
 ### Jest

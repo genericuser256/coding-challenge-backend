@@ -57,7 +57,7 @@ eventsRouter.get<never, IGetEventsResponse, never, IGetEventsQuery>(
             untilDate
         );
 
-        return res.json(wrapPaginatedData(data, limit, offset, count));
+        return res.json(wrapPaginatedData(data, offset, limit, count));
     }
 );
 

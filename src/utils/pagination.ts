@@ -46,8 +46,8 @@ export interface IPaginatedData<T> {
 
 export const wrapPaginatedData = <T>(
     data: T[],
-    limit: number,
     offset: number,
+    limit: number,
     total: number
 ): IPaginatedData<T> => {
     const next = limit + offset >= total ? null : limit + offset;

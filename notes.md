@@ -17,6 +17,10 @@ While there's a request context it would also be useful to have a shared context
 When using the initial configuration, I was running into issues with the babel transformations and the decorators used for my model files. It seems to be resolved by switching to the `ts-jest` preset and transformer, but this might vary per machine (not sure why it broke in the first place...). While trying to solve the issue I also bumped the `babel` versions to try and resolve it (to no avail).
 `ts-jest` also "suggested" (read, printed annoying warnings) that I upgrade to `jest` v28 so I did.
 
+### Validation
+
+Normally we would want better validation on api endpoints, in this case I kept it simple since the endpoints weren't taking in anything too complex. That said, had there been more complexity, using a library like [`ajv`](https://ajv.js.org/) the often the best way to go. This can also be used for validating the transformations between different versions of a DB model (eg. an `event` might not have the `attendees` and `organizer` optimistically loaded, and verifying that it is loaded is useful).
+
 ### Ono
 
 `ono` expects an `"ErrorLike"` which doesn't include the `unknown` you get from a catch block. Generally you'd want to not ignore this but that's time consuming and frustrating so just kinda ignoring the issue by casting whenever I use it. Sorry not sorry.

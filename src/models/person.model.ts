@@ -1,4 +1,11 @@
-import { Table, Column, HasMany, DataType } from "sequelize-typescript";
+import {
+    Table,
+    Column,
+    HasMany,
+    DataType,
+    NotEmpty,
+    AllowNull,
+} from "sequelize-typescript";
 import {
     BaseModel,
     defaultTableOptions,
@@ -18,6 +25,8 @@ export interface IPersonModelCreationAttr extends IBaseModelCreationAttr {
 
 @Table({ ...defaultTableOptions, tableName: "person" })
 export class Person extends BaseModel<IPersonModel, IPersonModelCreationAttr> {
+    @AllowNull(false)
+    @NotEmpty
     @Column
     name!: string;
 

@@ -5,6 +5,8 @@ import {
     BelongsTo,
     HasMany,
     DataType,
+    Index,
+    AllowNull,
 } from "sequelize-typescript";
 import {
     BaseModel,
@@ -37,15 +39,21 @@ export interface IEventModelCreationAttr extends IBaseModelCreationAttr {
 
 @Table({ ...defaultTableOptions, tableName: "event" })
 export class Event extends BaseModel<IEventModel, IEventModelCreationAttr> {
+    @AllowNull(false)
     @Column
     name!: string;
 
+    @AllowNull(false)
     @Column
     isOutside!: boolean;
 
+    @AllowNull(false)
+    @Index("event_location")
     @Column
     location!: string;
 
+    @AllowNull(false)
+    @Index("event_date")
     @Column
     date!: Date;
 

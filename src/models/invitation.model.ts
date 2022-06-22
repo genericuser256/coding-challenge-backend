@@ -4,6 +4,7 @@ import {
     Default,
     DataType,
     BelongsTo,
+    AllowNull,
 } from "sequelize-typescript";
 import {
     BaseModel,
@@ -40,6 +41,7 @@ export class Invitation extends BaseModel<
     IInvitationModelCreationAttr
 > {
     @Default(InvitationStatus.Pending)
+    @AllowNull(false)
     @Column(DataType.ENUM(...Object.values(InvitationStatus)))
     status!: InvitationStatus;
 

@@ -54,10 +54,6 @@ const setupExpress = () => {
 };
 
 export const start = async (): Promise<Server> => {
-    try {
-        await getDBConnection();
-        return setupExpress();
-    } catch (err) {
-        throw err;
-    }
+    await getDBConnection();
+    return setupExpress();
 };

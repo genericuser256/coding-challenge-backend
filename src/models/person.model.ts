@@ -12,11 +12,11 @@ import {
     IBaseModel,
     IBaseModelCreationAttr,
 } from "./baseModel";
-import { Invitation } from "./invitation.model";
+import { IInvitationModel, Invitation } from "./invitation.model";
 
 export interface IPersonModel extends IBaseModel {
     name: string;
-    invitations: Invitation[];
+    invitations: Omit<IInvitationModel, "invitee" | "event">[];
 }
 
 export interface IPersonModelCreationAttr extends IBaseModelCreationAttr {

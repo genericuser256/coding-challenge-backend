@@ -16,16 +16,16 @@ import {
     IBaseModelCreationAttr,
     Id,
 } from "./baseModel";
-import { Invitation } from "./invitation.model";
-import { Person } from "./person.model";
+import { IInvitationModel, Invitation } from "./invitation.model";
+import { IPersonModel, Person } from "./person.model";
 
 export interface IEventModel extends IBaseModel {
     name: string;
     isOutside: boolean;
     location: string;
     date: Date;
-    organizer: Person;
-    attendees: Invitation[];
+    organizer: Omit<IPersonModel, "invitations">;
+    attendees: Omit<IInvitationModel, "invitee" | "event">[];
 }
 
 export interface IEventModelCreationAttr extends IBaseModelCreationAttr {

@@ -13,8 +13,8 @@ import {
     IBaseModelCreationAttr,
     Id,
 } from "./baseModel";
-import { Event } from "./event.model";
-import { Person } from "./person.model";
+import { Event, IEventModel } from "./event.model";
+import { IPersonModel, Person } from "./person.model";
 
 export enum InvitationStatus {
     Pending = "pending",
@@ -25,8 +25,8 @@ export enum InvitationStatus {
 
 export interface IInvitationModel extends IBaseModel {
     status: InvitationStatus;
-    invitee: Person;
-    event: Event;
+    invitee: Omit<IPersonModel, "invitations">;
+    event: Omit<IEventModel, "organizer" | "attendees">;
 }
 
 export interface IInvitationModelCreationAttr extends IBaseModelCreationAttr {

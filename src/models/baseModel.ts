@@ -13,31 +13,38 @@ import {
 } from "sequelize-typescript";
 import { Optional } from "sequelize/types";
 
-export type Id = string;
+export type Id<Type extends string> = string & { type: Type };
 
-export interface IBaseModel {
-    id: Id;
+export interface IBaseModel<IdType extends Id<Type>, Type extends string> {
+    id: IdType;
     createdAt: Date;
     updatedAt: Date;
     deletedAt?: Date;
 }
 
-export interface IBaseModelCreationAttr
-    extends Optional<IBaseModel, "id" | "createdAt" | "updatedAt"> {}
+export interface IBaseModelCreationAttr<
+    IdType extends Id<Type>,
+    Type extends string
+> extends Optional<
+        IBaseModel<IdType, Type>,
+        "id" | "createdAt" | "updatedAt"
+    > {}
 
 export class BaseModel<
+    IdType extends Id<Type>,
+    Type extends string,
     TModelAttributes extends { [key: string]: any },
     TModelCreationAttributes extends { [key: string]: any }
 > extends Model<
-    TModelAttributes & IBaseModel,
-    TModelCreationAttributes & IBaseModelCreationAttr
+    TModelAttributes & IBaseModel<IdType, Type>,
+    TModelCreationAttributes & IBaseModelCreationAttr<IdType, Type>
 > {
     @AllowNull(false)
     @Default(DataType.UUIDV4)
     @PrimaryKey
     @Unique
     @Column(DataType.UUID)
-    id!: Id;
+    id!: IdType;
 
     @AllowNull(false)
     @CreatedAt
@@ -60,9 +67,12 @@ export const defaultTableOptions: TableOptions = {
     paranoid: true,
 };
 
-export const convertBaseModelToIBaseModel = (
-    model: BaseModel<any, any>
-): IBaseModel => {
+export const convertBaseModelToIBaseModel = <
+    IdType extends Id<Type>,
+    Type extends string
+>(
+    model: BaseModel<IdType, Type, any, any>
+): IBaseModel<IdType, Type> => {
     return {
         id: model.id,
         createdAt: model.createdAt,

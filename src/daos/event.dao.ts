@@ -8,11 +8,11 @@ import {
 import ono from "ono";
 import {
     IEventModel,
-    Id,
     Event,
     Invitation,
     Person,
     convertEventToIEventModel,
+    EventId,
 } from "../models";
 
 export interface IEventDao {
@@ -22,7 +22,7 @@ export interface IEventDao {
         opt?: IQueryOptions
     ) => Promise<ICountedData<IEventModel>>;
 
-    getEvent: (id: Id) => Promise<IEventModel>;
+    getEvent: (id: EventId) => Promise<IEventModel>;
 }
 
 export class EventDao implements IEventDao {
@@ -60,7 +60,7 @@ export class EventDao implements IEventDao {
         }
     }
 
-    async getEvent(id: string) {
+    async getEvent(id: EventId) {
         try {
             const data = await Event.findOne({
                 where: {

@@ -11,20 +11,29 @@ import {
     defaultTableOptions,
     IBaseModel,
     IBaseModelCreationAttr,
+    Id,
 } from "./baseModel";
 import { IInvitationModel, Invitation } from "./invitation.model";
 
-export interface IPersonModel extends IBaseModel {
+export type PersonId = Id<"person">;
+
+export interface IPersonModel extends IBaseModel<PersonId, "person"> {
     name: string;
     invitations: Omit<IInvitationModel, "invitee" | "event">[];
 }
 
-export interface IPersonModelCreationAttr extends IBaseModelCreationAttr {
+export interface IPersonModelCreationAttr
+    extends IBaseModelCreationAttr<PersonId, "person"> {
     name: string;
 }
 
 @Table({ ...defaultTableOptions, tableName: "person" })
-export class Person extends BaseModel<IPersonModel, IPersonModelCreationAttr> {
+export class Person extends BaseModel<
+    PersonId,
+    "person",
+    IPersonModel,
+    IPersonModelCreationAttr
+> {
     @AllowNull(false)
     @NotEmpty
     @Column

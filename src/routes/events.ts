@@ -2,7 +2,7 @@ import { isAfter, isValid } from "date-fns";
 import { Router } from "express";
 import httpError from "http-errors";
 import ono from "ono";
-import { IEventModel, Id } from "../models";
+import { IEventModel, EventId } from "../models";
 import { eventService, IEventModelWithForecast } from "../services";
 import {
     IPaginatedData,
@@ -72,7 +72,7 @@ eventsRouter.get<never, IGetEventsResponse, never, IGetEventsQuery>(
 );
 
 interface IGetEventParams {
-    id: Id;
+    id: EventId;
 }
 
 interface IGetEventResponse extends IEventModelWithForecast {}

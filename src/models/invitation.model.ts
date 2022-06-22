@@ -13,8 +13,8 @@ import {
     IBaseModelCreationAttr,
     Id,
 } from "./baseModel";
-import { Event, IEventModel } from "./event.model";
-import { IPersonModel, Person } from "./person.model";
+import { Event, EventId, IEventModel } from "./event.model";
+import { IPersonModel, Person, PersonId } from "./person.model";
 
 export enum InvitationStatus {
     Pending = "pending",
@@ -23,20 +23,26 @@ export enum InvitationStatus {
     Rejected = "rejected",
 }
 
-export interface IInvitationModel extends IBaseModel {
+export type InvitationId = Id<"invitation">;
+
+export interface IInvitationModel
+    extends IBaseModel<InvitationId, "invitation"> {
     status: InvitationStatus;
     invitee: Omit<IPersonModel, "invitations">;
     event: Omit<IEventModel, "organizer" | "attendees">;
 }
 
-export interface IInvitationModelCreationAttr extends IBaseModelCreationAttr {
-    inviteeId: Id;
-    eventId: Id;
+export interface IInvitationModelCreationAttr
+    extends IBaseModelCreationAttr<InvitationId, "invitation"> {
+    inviteeId: PersonId;
+    eventId: EventId;
     status?: InvitationStatus;
 }
 
 @Table({ ...defaultTableOptions, tableName: "invitation" })
 export class Invitation extends BaseModel<
+    InvitationId,
+    "invitation",
     IInvitationModel,
     IInvitationModelCreationAttr
 > {

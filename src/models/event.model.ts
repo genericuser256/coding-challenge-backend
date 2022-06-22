@@ -16,10 +16,12 @@ import {
     IBaseModelCreationAttr,
     Id,
 } from "./baseModel";
-import { IInvitationModel, Invitation } from "./invitation.model";
-import { IPersonModel, Person } from "./person.model";
+import { IInvitationModel, Invitation, InvitationId } from "./invitation.model";
+import { IPersonModel, Person, PersonId } from "./person.model";
 
-export interface IEventModel extends IBaseModel {
+export type EventId = Id<"event">;
+
+export interface IEventModel extends IBaseModel<EventId, "event"> {
     name: string;
     isOutside: boolean;
     location: string;
@@ -28,17 +30,23 @@ export interface IEventModel extends IBaseModel {
     attendees: Omit<IInvitationModel, "invitee" | "event">[];
 }
 
-export interface IEventModelCreationAttr extends IBaseModelCreationAttr {
+export interface IEventModelCreationAttr
+    extends IBaseModelCreationAttr<EventId, "event"> {
     name: string;
     isOutside: boolean;
     location: string;
     date: Date;
-    organizerId: Id;
-    attendeeIds?: Id[];
+    organizerId: PersonId;
+    attendeeIds?: InvitationId[];
 }
 
 @Table({ ...defaultTableOptions, tableName: "event" })
-export class Event extends BaseModel<IEventModel, IEventModelCreationAttr> {
+export class Event extends BaseModel<
+    EventId,
+    "event",
+    IEventModel,
+    IEventModelCreationAttr
+> {
     @AllowNull(false)
     @Column
     name!: string;

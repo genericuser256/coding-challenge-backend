@@ -87,3 +87,7 @@ It would be nice to set up an auto barreller & configure proper aliases so thing
 ### node-fetch
 
 For some reason `node-fetch` v3 has issues with imports on node v14, so need to use `node-fetch` v2 instead.
+
+### Id type
+
+Using nominal typing we're able to tell the compiler that while all of these Id's are strings, they actually refer to different things. The benefit of this is that it _should_ be harder to then accidentally use an event id to get a person for example.

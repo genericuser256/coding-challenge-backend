@@ -1,7 +1,7 @@
 import { addDays, isWithinInterval } from "date-fns";
 import { eventDao, ICountedData, IEventDao, IQueryOptions } from "../daos";
 import baseLogger, { getLoggerChild } from "../logger";
-import { IEventModel, Id } from "../models";
+import { IEventModel, EventId } from "../models";
 import { getCityFromLocation } from "../utils/event";
 import {
     IGetForecastResult,
@@ -16,7 +16,7 @@ export interface IEventService {
         opt?: IQueryOptions
     ) => Promise<ICountedData<IEventModel>>;
 
-    getEvent: (id: Id) => Promise<IEventModel>;
+    getEvent: (id: EventId) => Promise<IEventModel>;
 }
 
 export interface IEventModelWithForecast extends IEventModel {
@@ -37,7 +37,7 @@ export class EventService implements IEventService {
         return await this.dao.getAllEvents(from, until, opt);
     }
 
-    async getEvent(id: Id) {
+    async getEvent(id: EventId) {
         //
         // Note: it probably makes sense to have this as another method that takes an event and
         // adds the forecast to it, so say the controller can decide if it wants the forecast or not,

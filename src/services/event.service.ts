@@ -1,5 +1,5 @@
 import { addDays, isWithinInterval } from "date-fns";
-import { eventDao, ICountedData, IEventDao, IQueryOptions } from "../dao";
+import { eventDao, ICountedData, IEventDao, IQueryOptions } from "../daos";
 import baseLogger, { getLoggerChild } from "../logger";
 import { IEventModel, Id } from "../models";
 import { getCityFromLocation } from "../utils/event";

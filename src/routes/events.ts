@@ -1,8 +1,7 @@
-import { isBefore, isValid } from "date-fns";
+import { isAfter, isValid } from "date-fns";
 import { Router } from "express";
 import httpError from "http-errors";
-import { IsUUID } from "sequelize-typescript";
-import { EventDao } from "../dao";
+import ono from "ono";
 import { IEventModel, Id } from "../models";
 import { eventService, IEventModelWithForecast } from "../services";
 import {
@@ -25,7 +24,7 @@ interface IGetEventsResponse extends IPaginatedData<IGetEventsEvent> {}
 
 eventsRouter.get<never, IGetEventsResponse, never, IGetEventsQuery>(
     "",
-    async (req, res) => {
+    async (req, res, next) => {
         const { from, until } = req.query;
         let fromDate: Date;
         let untilDate: Date | undefined;
@@ -33,7 +32,8 @@ eventsRouter.get<never, IGetEventsResponse, never, IGetEventsQuery>(
         if (from) {
             fromDate = new Date(from);
             if (!isValid(fromDate)) {
-                throw new httpError.BadRequest("from is invalid");
+                next(new httpError.BadRequest("from is invalid"));
+                return;
             }
         } else {
             fromDate = new Date();
@@ -42,22 +42,32 @@ eventsRouter.get<never, IGetEventsResponse, never, IGetEventsQuery>(
         if (until) {
             untilDate = new Date(until);
             if (!isValid(untilDate)) {
-                throw new httpError.BadRequest("until is invalid");
+                next(new httpError.BadRequest("until is invalid"));
+                return;
             }
         }
 
-        if (untilDate && isBefore(fromDate, untilDate)) {
-            throw new httpError.BadRequest("until must be after from");
+        if (untilDate && isAfter(fromDate, untilDate)) {
+            next(new httpError.BadRequest("until must be after from"));
+            return;
         }
 
-        const { limit, offset } = parseAndValidatePaginationQuery(req.query);
+        try {
+            const { limit, offset } = parseAndValidatePaginationQuery(
+                req.query
+            );
 
-        const { data, count } = await eventService.getAllEvents(
-            fromDate,
-            untilDate
-        );
+            const { data, count } = await eventService.getAllEvents(
+                fromDate,
+                untilDate,
+                { limit, offset }
+            );
 
-        return res.json(wrapPaginatedData(data, offset, limit, count));
+            return res.json(wrapPaginatedData(data, offset, limit, count));
+        } catch (e) {
+            next(ono(e as Error, "encountered error in getAllEvents"));
+            return;
+        }
     }
 );
 

@@ -24,16 +24,19 @@ export const parseAndValidatePaginationQuery = (query: IPaginationQuery) => {
         offset = defaultPaginationOptions.offset,
         limit = defaultPaginationOptions.limit,
     } = query;
+    // See comment in notes.md for why this is happening :(
+    const parsedOffset = typeof offset === "string" ? parseInt(offset) : offset;
+    const parsedLimit = typeof limit === "string" ? parseInt(limit) : limit;
 
-    if (offset < 0) {
+    if (parsedOffset < 0) {
         throw new httpError.BadRequest("OffsetRange");
     }
 
-    if (limit < 1 || limit > 100) {
+    if (parsedLimit < 1 || parsedLimit > 100) {
         throw new httpError.BadRequest("LimitRange");
     }
 
-    return { offset, limit };
+    return { offset: parsedOffset, limit: parsedLimit };
 };
 
 export interface IPaginatedData<T> {

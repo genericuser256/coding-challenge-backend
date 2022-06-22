@@ -16,6 +16,16 @@ While there's a request context it would also be useful to have a shared context
 
 While normally I would write thorough unit tests for each file, I'm assuming that for this it's more to get the idea of how I write tests rather than seeing I write every test. As such, I've created a few example test files to show how I usually write tests, but have not done so for everything.
 
+## Challenges
+
+### Express & error handling
+
+This took way longer than it should have but the `errorHandler` middleware needed to be registered as the last handler for it to correctly intercept the error coming from the routes. While obvious in retrospect, it wasn't communicated by the express docs as well as I would have liked. I also found that while the docs state you can just throw inside a handler, I was finding that didn't work so had to use `next` instead to communicate the error.
+
+### Express & query parameters
+
+I had figured that `express` would provide basic type coercion but it doesn't seem to as far as I can tell. As such I had to do a little bit of less than clean code in the `parseAndValidatePaginationQuery` to handle the `string` case. If I had noticed this earlier I probably would have added a validator and coercion library to better handle this but, I found it pretty late in the process and I don't feel like reworking it :).
+
 ## Misc
 
 ### Jest
